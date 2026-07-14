@@ -33,6 +33,12 @@ class AttendeeController {
             ]);
         }
     }
-    
+
+    public function getAttendees($search = '')
+     {
+        $result = $this->model->getAll($search);
+
+        echo json_encode($result);
+    }
 }
 ?>

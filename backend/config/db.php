@@ -14,7 +14,8 @@ class Database {
         );
 
         if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+            echo json_encode(["error" => "Database connection failed"]);
+            exit();
         }
 
         return $conn;
