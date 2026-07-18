@@ -1,4 +1,6 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
 
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../controllers/AttendeeController.php';
@@ -16,6 +18,6 @@ $church = $_GET['church'] ?? '';
 $firstTimer = $_GET['first_timer'] ?? '';
 $isGuest = $_GET['is_guest'] ?? '';
 
-// call function
-$controller->getAttendees($search, $address, $church, $firstTimer, $isGuest);
+// call controller
+$controller->getAttendees()
 ?>

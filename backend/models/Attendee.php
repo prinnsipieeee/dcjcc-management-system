@@ -38,8 +38,8 @@ class Attendee {
 
         // filter by address
         if (!empty($address)) {
-            $query .= " AND address = ?";
-            $params[] = $address;
+            $query .= " AND address LIKE ?";
+            $params[] = "%" . $address . "%";
             $types .= "s";
         }
 
@@ -50,24 +50,27 @@ class Attendee {
             $types .= "s";
         }
 
-        // filter by first timer
-        if($firstTimer !== '') {
-            $query .= " AND is_first_timer = ?";
-            $params [] = $firstTimer;
-            $types .= "i";
-        }
+        if ($isGuest !== '' || $firstTimer !== '') {
 
-        // filter by is guest
-        if($isGuest !== ''){
-            $query .= " AND is_guest = ? ";
+        $query .= " AND (";
+
+        $conditions = [];
+
+        if ($isGuest !== '') {
+            $conditions[] = "is_guest = ?";
             $params[] = $isGuest;
             $types .= "i";
         }
 
+        if ($firstTimer !== '') {
+            $conditions[] = "is_first_timer = ?";
+            $params[] = $firstTimer;
+            $types .= "i";
+        }
 
-        // echo $query;
-        // print_r($params);
-        // exit;
+        $query .= implode(" OR ", $conditions);
+        $query .= ")";
+    }
 
         $stmt = $this->conn->prepare($query);
 
@@ -86,8 +89,6 @@ class Attendee {
         return $data;
         
     }
-    
-    
 }
 
 ?>

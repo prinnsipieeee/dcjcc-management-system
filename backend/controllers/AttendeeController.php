@@ -39,7 +39,7 @@ class AttendeeController {
         $search = $_GET['search'] ?? '';
         $address   = $_GET['address'] ?? '';
         $church = $_GET['church'] ?? '';
-        $firstTimer = $_GET['first_timer'] ?? '';
+        $firstTimer = $_GET['is_first_timer'] ?? '';
         $isGuest = $_GET['is_guest'] ?? '';
 
         $result = $this->model->getAll($search, $address, $church, $firstTimer, $isGuest);
