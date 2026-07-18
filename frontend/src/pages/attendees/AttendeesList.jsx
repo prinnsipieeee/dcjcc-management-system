@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
     export default function AttendeesList() {
         const [attendees, setAttendees] = useState([]);
@@ -28,6 +29,28 @@ import { useEffect, useState } from "react";
         useEffect(() => {
             fetchAttendees();
         }, [filters]);
+
+        const handleDelete = (id) => {
+            console.log("Deleting ID: ", id);
+
+            if(!confirm("Are you sure?")) return;
+
+            fetch(`http://localhost/dcjcc-management-system/backend/api/delete_attendee.php?id=${id}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log("Respone: ",  data);
+                if(data.success) {
+                    alert("Deleted!");
+                    fetchAttendees();
+                } else {
+                    alert("Delete Failed");
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                alert("Server error");
+            });
+        }
 
        return (
         <div className="p-6">
@@ -94,6 +117,13 @@ import { useEffect, useState } from "react";
                 </label>
                 </div>
 
+                <Link
+                    to="/attendees/create"
+                    className="bg-blue-500 px-4 py-2 rounded"
+                >
+                    + Add Attendee
+                </Link>
+
             </div>
             </div>
 
@@ -129,7 +159,7 @@ import { useEffect, useState } from "react";
                             {a.is_guest == 1 ? "Yes" : "No"}
                         </span>
                         </td>
-
+                        
                         <td className="p-3">
                         <span
                             className={`px-2 py-1 rounded text-xs ${
@@ -141,8 +171,16 @@ import { useEffect, useState } from "react";
                             {a.is_first_timer == 1 ? "Yes" : "No"}
                         </span>
                         </td>
+                        <td>
+                            <button
+                                onClick={() => handleDelete(a.id)}
+                                className="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                            >
+                                Delete
+                            </button>
+                        </td>
                     </tr>
-                    ))
+                    ))              
                 ) : (
                     <tr>
                     <td colSpan="5" className="text-center p-4 text-gray-500">

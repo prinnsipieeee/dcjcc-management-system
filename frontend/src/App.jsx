@@ -14,7 +14,7 @@ function App() {
           <Route index element={<Dashboard />}/>
           <Route path="dashboard" element={<Dashboard />} /> 
           <Route path="attendees" element={<AttendeesList />} />
-          <Route path="add-attendee" element={<AttendeeForm />}></Route>
+          <Route path="/attendees/create" element={<AttendeeForm />}></Route>
         </Route>
 
       </Routes>
